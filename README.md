@@ -39,11 +39,10 @@ AdFlowHQ is a multi-tenant, AI-enabled workflow orchestration platform built on 
 1. Clone the repo and start services:
    ```bash
    docker-compose up -d
+   go run backend/main.go
+   go run worker/main.go
+   ```
 
-go run backend/main.go
-go run worker/main.go
-
-cd frontend && npm install && npm run dev
 
 📌 Roadmap
 
@@ -51,6 +50,9 @@ cd frontend && npm install && npm run dev
  Usage metering and alerts per tenant
  Optional integration with Temporal Cloud
  Full AWS deployment scripts (Terraform)
+
+
+ 
 
 
 
