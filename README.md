@@ -25,13 +25,6 @@ AdFlowHQ is a multi-tenant, AI-enabled workflow orchestration platform built on 
 
 ## 📦 Repository Structure
 
-/
-├── backend/ # Go API and workflow activities
-├── worker/ # Temporal worker logic
-├── frontend/ # React-based multi-tenant UI
-├── db/ # Schema and migration files
-├── docker/ # Local environment setup
-└── README.md
 
 
 ## 🔧 Getting Started (POC)
