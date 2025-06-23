@@ -76,7 +76,7 @@ adflowhq-poc/
 
 📌 Roadmap
 
- AI-driven workflow editor (LLM-based)
+ -AI-driven workflow editor (LLM-based)
  Usage metering and alerts per tenant
  Optional integration with Temporal Cloud
  Full AWS deployment scripts (Terraform)
