@@ -25,7 +25,7 @@ AdFlowHQ is a multi-tenant, AI-enabled workflow orchestration platform built on 
 
 ## 📦 Repository Structure
 
-```
+``
 adflowhq-poc/
 ├── activities/
 │   └── ads_integration.go      # Google/Facebook/CallRail call logic
@@ -49,7 +49,7 @@ adflowhq-poc/
 │   └── workflows_test.go       # Workflow-level unit tests using Temporal test suite
 ├── go.mod
 └── go.sum
-```
+
 
 📁 Breakdown of Key Folders
 	•	activities/: External API integrations for ads platforms and CallRail.
