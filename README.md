@@ -74,6 +74,31 @@ adflowhq-poc/
    ```
 
 
+⸻
+
+🔧 How to run the POC
+	1.	Start Temporal:
+    ```bash
+    temporal server start-dev --db-filename temporal.db --ui-port 8080
+    ```
+  2. Set Gemini key:
+    ```bash
+    export GEMINI_API_KEY=your-gemini-api-key
+    ```
+  3.	Run worker:
+    ```bash
+    go run worker/main.go
+    ```
+
+  4. Run the client:
+    ```bash
+    go run client/main.go --tenant=acme --lead=lead42
+    ```
+  5.	Monitor: Use Temporal Web UI at [http://localhost:8080](http://localhost:8080) to trace execution.
+
+
+
+
 📌 Roadmap
 
  - AI-driven workflow editor (LLM-based)
