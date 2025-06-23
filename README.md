@@ -25,39 +25,31 @@ AdFlowHQ is a multi-tenant, AI-enabled workflow orchestration platform built on 
 
 ## 📦 Repository Structure
 
+```
 adflowhq-poc/
-│
 ├── activities/
-│   └── ads_integration.go         # Google/Facebook/CallRail call logic
-│
-├── agent/                         # AI Agent integration
-│   └── gemini_agent.go           # Gemini prompt, tool calls, response logic
-│
+│   └── ads_integration.go      # Google/Facebook/CallRail call logic
+├── agent/
+│   └── gemini_agent.go         # Gemini prompt, tool calls, response logic
 ├── workflows/
-│   ├── orchestrator.go          # Main workflow: lead → AI → routing
-│   └── child_tasks.go           # Separate child workflows/activities for specific domains
-│
+│   ├── orchestrator.go         # Main workflow: lead → AI → routing
+│   └── child_tasks.go          # Separate child workflows/activities for specific domains
 ├── worker/
-│   └── main.go                  # Setup Temporal client + Worker registration
-│
+│   └── main.go                 # Setup Temporal client + Worker registration
 ├── client/
-│   └── main.go                  # CLI to start workflows (for testing/demo)
-│
+│   └── main.go                 # CLI to start workflows (for testing/demo)
 ├── config/
-│   └── config.go                # Vault addresses, Gemini key paths, Temporal namespace
-│
-├── vault/                       # POC Vault docker setup
-│   └── docker-compose.yml
-│
-├── ui/                          # React/Vite frontend
-│   ├── src/
-│   └── package.json
-│
+│   └── config.go               # Vault addresses, Gemini key paths, Temporal namespace
+├── vault/                      # POC Vault docker setup
+├── docker-compose.yml
+├── ui/                         # React/Vite frontend
+│   └── src/
+├── package.json
 ├── tests/
-│   └── workflows_test.go        # Workflow-level unit tests using Temporal test suite
-│
+│   └── workflows_test.go       # Workflow-level unit tests using Temporal test suite
 ├── go.mod
 └── go.sum
+```
 
 ## 🔧 Getting Started (POC)
 
