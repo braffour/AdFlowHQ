@@ -51,6 +51,25 @@ adflowhq-poc/
 └── go.sum
 ```
 
+📁 Breakdown of Key Folders
+	•	activities/: External API integrations for ads platforms and CallRail.
+	•	agent/: AI agent logic using Gemini API — will include prompts, tool invocations, and callbacks to workflows.
+	•	workflows/:
+	•	orchestrator.go defines the main workflow that triggers AI analysis, decision-making, and subsequent child workflows.
+	•	child_tasks.go contains sub-workflows or activities dedicated to ads sync, call attribution, etc.
+	•	worker/main.go:
+	•	Initializes Temporal Client, sets namespace and task queue, registers workflows & activities, starts polling.
+	•	client/main.go:
+	•	CLI tool to start a workflow with given tenant/context (e.g. go run client/main.go --tenant=acme), useful for demo purposes.
+	•	config/:
+	•	Loads config from env/Vault, including Gemini API key, Temporal server URL, secrets path.
+	•	vault/:
+	•	Docker Compose to run Vault locally; stores Gemini credentials and ads platform secrets.
+	•	ui/:
+	•	React app scaffolded via Vite. Will query Temporal workflows via CLI or HTTP shim for signals and status polling.
+	•	tests/:
+	•	Unit tests for workflows using github.com/temporalio/sdk-go/testsuite, mocking activities and the AI agent responses.  
+
 ## 🔧 Getting Started (POC)
 
 1. Clone the repo and start services:
