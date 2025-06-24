@@ -5,13 +5,14 @@ import (
 	agent "adflowhq/agent"
 	"time"
 
+	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
 
 func Orchestrator(ctx workflow.Context, leadID string) error {
     ao := workflow.ActivityOptions{
         StartToCloseTimeout: time.Minute * 5,
-        RetryPolicy: &workflow.RetryPolicy{
+        RetryPolicy: &temporal.RetryPolicy{
             InitialInterval: time.Second,
             BackoffCoefficient: 2.0,
             MaximumInterval: time.Minute,
