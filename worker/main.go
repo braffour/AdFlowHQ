@@ -1,16 +1,3 @@
-/* clientOptions := client.Options{Namespace: "adflowhq-poc"}
-tc, _ := client.Dial(clientOptions)
-defer tc.Close()
-
-wrk := worker.New(tc, "ADFLOWHQ_TASK_QUEUE", worker.Options{})
-wrk.RegisterWorkflow(workflows.Orchestrator)
-wrk.RegisterActivity(activities.SyncGoogleAds)
-wrk.RegisterActivity(agent.GeminiAgent)
-wrk.Run() */
-
-
-
-
 package adflowhq.worker
 
 import (
