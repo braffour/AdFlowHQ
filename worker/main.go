@@ -1,25 +1,26 @@
-package adflowhq.worker
+package main
 
 import (
-    "log"
-    "adflowhq/activities"
-    "adflowhq/agent"
-    "adflowhq/workflows"
-    "go.temporal.io/sdk/client"
-    "go.temporal.io/sdk/worker"
+	activities "adflowhq/activities"
+	agent "adflowhq/agent"
+	workflows "adflowhq/workflows"
+	"log"
+
+	"go.temporal.io/sdk/client"
+	"go.temporal.io/sdk/worker"
 )
 
 func main() {
-    c, err := client.Dial(client.Options{})
-    if err!=nil { log.Fatalln(err) }
-    defer c.Close()
+	c, err := client.Dial(client.Options{})
+	if err!=nil { log.Fatalln(err) }
+	defer c.Close()
 
-    w := worker.New(c, "ADFLOWHQ_TASK_QUEUE", worker.Options{})
-    w.RegisterWorkflow(workflows.Orchestrator)
-    w.RegisterActivity(agent.GeminiAgent)
-    w.RegisterActivity(activities.SyncGoogleAds)
-    w.RegisterActivity(activities.SyncFacebookAds)
+	w := worker.New(c, "ADFLOWHQ_TASK_QUEUE", worker.Options{})
+	w.RegisterWorkflow(workflows.Orchestrator)
+	w.RegisterActivity(agent.GeminiAgent)
+	w.RegisterActivity(activities.SyncGoogleAds)
+	w.RegisterActivity(activities.SyncFacebookAds)
 
-    err = w.Run(worker.InterruptCh())
-    if err!=nil { log.Fatalln(err) }
+	err = w.Run(worker.InterruptCh())
+	if err!=nil { log.Fatalln(err) }
 }
