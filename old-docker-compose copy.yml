@@ -1,0 +1,132 @@
+services:
+  # Temporal services
+  temporal:
+    image: temporalio/auto-setup:1.22.3
+    ports:
+      - "7233:7233"
+      - "8080:8080"
+    environment:
+      DB: postgresql
+      DB_PORT: 5432
+      POSTGRES_USER: temporal
+      POSTGRES_PWD: temporal
+      POSTGRES_SEEDS: postgresql
+      DYNAMIC_CONFIG_FILE_PATH: config/dynamicconfig/development-sql.yaml
+    depends_on:
+      postgresql:
+        condition: service_healthy
+    volumes:
+      - ./temporal-config:/etc/temporal/config/dynamicconfig
+    networks:
+      - adflow-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  postgresql:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: temporal
+      POSTGRES_USER: temporal
+      POSTGRES_DB: temporal
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    networks:
+      - adflow-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U temporal -d temporal"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Vault for secrets management
+  vault:
+    image: hashicorp/vault:1.19.5
+    ports:
+      - "8200:8200"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: dev-token
+      VAULT_DEV_LISTEN_ADDRESS: 0.0.0.0:8200
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - vault-data:/vault/data
+    networks:
+      - adflow-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "vault", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # AdFlowHQ Worker
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      VAULT_ADDR: http://vault:8200
+      VAULT_TOKEN: dev-token
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+    depends_on:
+      temporal:
+        condition: service_healthy
+      vault:
+        condition: service_healthy
+    networks:
+      - adflow-network
+    restart: unless-stopped
+
+  # AdFlowHQ Client (for testing)
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile.client
+    environment:
+      TEMPORAL_ADDRESS: temporal:7233
+      VAULT_ADDR: http://vault:8200
+      VAULT_TOKEN: dev-token
+    depends_on:
+      - temporal
+      - vault
+    profiles:
+      - test
+
+  # React UI
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:8080
+    depends_on:
+      temporal:
+        condition: service_healthy
+    networks:
+      - adflow-network
+    volumes:
+      - ./ui/src:/app/src
+      - ./ui/public:/app/public
+    restart: unless-stopped
+
+networks:
+  adflow-network:
+    driver: bridge
+
+volumes:
+  postgresql-data:
+    driver: local
+  vault-data:
+    driver: local

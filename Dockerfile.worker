@@ -2,15 +2,16 @@ FROM golang:1.21-alpine AS builder
 
 WORKDIR /app
 
-# Copy go mod files
+# Copy go mod and sum files
 COPY go.mod go.sum ./
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
 RUN go mod download
 
-# Copy source code
+# Copy the source code from the current directory to the Working Directory inside the container
 COPY . .
 
-# Build the worker
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o worker ./worker
+# Build the Go app
+RUN go build -o /adflow-worker worker/main.go
 
 # Final stage
 FROM alpine:latest
@@ -20,7 +21,7 @@ RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 
 # Copy the binary from builder stage
-COPY --from=builder /app/worker .
+COPY --from=builder /adflow-worker .
 
 # Run the worker
-CMD ["./worker"] 
+CMD ["./adflow-worker"]

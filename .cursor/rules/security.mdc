@@ -1,0 +1,64 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+security.md – Cursor Security Rules
+
+This file defines security-specific rules for Cursor to follow when reading, writing, or modifying code and configurations. These rules apply universally and are distinct from general programming or project management practices. They help Cursor act like a vigilant security engineer in every action.
+
+⸻
+
+🔐 Secure Coding Practices
+	•	Always validate and sanitize all user input, whether from forms, APIs, query parameters, or headers. Never trust external data.
+	•	Use parameterized queries or ORM protections to prevent SQL injection. Avoid string concatenation for database queries.
+	•	Escape or sanitize output before rendering it in a UI to prevent XSS attacks.
+	•	Hash passwords using strong algorithms like bcrypt, scrypt, or argon2. Never store or log plaintext passwords.
+	•	Avoid use of insecure functions such as eval, exec, system, or similar, unless justified and sandboxed.
+	•	Reject hardcoded secrets (passwords, API keys, tokens). Replace with environment variables or secret management tools.
+
+⸻
+
+📦 Dependency & CVE Scanning
+	•	Run security audits on dependencies using tools appropriate for the stack:
+	•	trivy fs . for file-system scans (containers, configs, IaC).
+	•	trivy image <image> for container CVEs.
+	•	npm audit, yarn audit, pip-audit, cargo audit, or similar based on language.
+	•	Refuse to deploy or commit if critical CVEs are present in dependencies. Attempt to auto-upgrade to a safe version.
+	•	Flag indirect (transitive) vulnerabilities and recommend action.
+
+⸻
+
+🔒 Cloud & Infrastructure Hardening
+	•	Scan Dockerfiles, Kubernetes manifests, Terraform, and AWS configurations for misconfigurations using Trivy, Checkov, or tfsec.
+	•	Default all cloud IAM policies to least privilege. Disallow * wildcard permissions unless explicitly justified.
+	•	Enforce encryption at rest and in transit in cloud storage and databases.
+	•	Ensure secrets are not embedded in Docker images or IaC files.
+	•	Restrict public exposure of services unless explicitly required (e.g., avoid open S3 buckets).
+
+⸻
+
+🛡️ Runtime & API Security
+	•	Implement rate limiting and CAPTCHA protections on public-facing endpoints that accept user input.
+	•	Reject unauthenticated or unauthorized access by default.
+	•	Avoid returning raw stack traces or sensitive error info to the client.
+	•	Log security-relevant events (e.g., failed logins, blocked requests), ensuring logs do not include secrets.
+
+⸻
+
+✅ Validation, Testing & Reporting
+	•	Run linters and SAST tools to catch insecure patterns during each commit or build step.
+	•	Treat failed CVE scans and security linters as blocking issues.
+	•	Use test cases for edge conditions, malformed inputs, and known exploits (e.g. SQLi, XSS payloads).
+	•	Report all security changes and findings in-chat, tagged with ✅ or ⚠️, but never write security logs or reports to files without consent.
+
+⸻
+
+🚨 Behavioral Safeguards for Cursor
+	•	Never assume safety of any input, file, or service unless explicitly verified.
+	•	Avoid speculative fixes for security issues. Always reconfirm root cause first.
+	•	Enforce command hygiene for scanning tools and automation (e.g., timeout 30s <cmd> 2>&1 | cat).
+	•	Refuse to execute or propose destructive actions unless inside a confirmed sandbox or instructed with user confirmation.
+	•	Ask clarifying questions before implementing security-sensitive changes if confidence is below 90%.
+
+⸻

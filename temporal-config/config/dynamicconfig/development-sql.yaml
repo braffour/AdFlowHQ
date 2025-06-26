@@ -1,0 +1,44 @@
+# Temporal Dynamic Config for Development with SQL
+# This file contains dynamic configuration values for Temporal server
+
+# System limits
+system.advancedVisibilityWritingMode: "off"
+system.enableReadFromSecondaryVisibility: false
+system.advancedVisibilityToRead: ""
+
+# Workflow limits
+workflow.maxIDLengthLimit: 255
+workflow.maxSearchAttributeValueSize: 2048
+workflow.maxSearchAttributeCount: 10
+
+# History limits
+history.persistenceMaxQPS: 3000
+history.persistenceGlobalMaxQPS: 30000
+history.throttledLogRPS: 20
+
+# Frontend limits
+frontend.rps: 1200
+frontend.workerRps: 1200
+frontend.throttledLogRPS: 20
+
+# Matching limits
+matching.rps: 1200
+matching.throttledLogRPS: 20
+
+# Worker limits
+worker.rps: 1200
+worker.throttledLogRPS: 20
+
+# Namespace limits
+namespace.defaultNumHistoryShards: 4
+namespace.retention: 7
+
+# Archival settings
+archival.history.state: "enabled"
+archival.history.enableRead: true
+archival.visibility.state: "enabled"
+archival.visibility.enableRead: true
+
+# Logging
+logging.development: true
+logging.level: "info" 
