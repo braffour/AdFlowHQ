@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Workflow, BarChart3, Settings } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -7,6 +8,7 @@ interface LayoutProps {
 
 export function Layout({ children }: LayoutProps) {
   const location = useLocation()
+  const { user, logout } = useAuth()
 
   const navigation = [
     { name: 'Dashboard', href: '/', icon: BarChart3 },
@@ -40,6 +42,17 @@ export function Layout({ children }: LayoutProps) {
                 </Link>
               )
             })}
+          </div>
+          <div className="mt-6 px-3">
+            {user ? (
+              <button onClick={logout} className="btn-secondary w-full">
+                Logout
+              </button>
+            ) : (
+              <Link to="/login" className="btn-primary w-full text-center">
+                Login
+              </Link>
+            )}
           </div>
         </nav>
       </div>
