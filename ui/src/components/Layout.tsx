@@ -1,18 +1,8 @@
-import { Link, useLocation } from 'react-router-dom'
-import { Workflow, BarChart3, Settings } from 'lucide-react'
+import { Link, useLocation, Outlet } from 'react-router-dom'
+import { navigation } from '../navigation'
 
-interface LayoutProps {
-  children: React.ReactNode
-}
-
-export function Layout({ children }: LayoutProps) {
+export function Layout() {
   const location = useLocation()
-
-  const navigation = [
-    { name: 'Dashboard', href: '/', icon: BarChart3 },
-    { name: 'Workflows', href: '/workflows', icon: Workflow },
-    { name: 'Settings', href: '/settings', icon: Settings },
-  ]
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -48,7 +38,7 @@ export function Layout({ children }: LayoutProps) {
       <div className="pl-64">
         <main className="py-8">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            {children}
+            <Outlet />
           </div>
         </main>
       </div>

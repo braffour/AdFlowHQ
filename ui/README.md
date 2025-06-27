@@ -19,9 +19,11 @@ ui/
 ├── src/
 │   ├── components/
 │   │   └── Layout.tsx          # Main layout component
+│   ├── navigation.ts          # Navigation configuration
 │   ├── pages/
 │   │   ├── Dashboard.tsx       # Dashboard page
-│   │   └── Workflows.tsx       # Workflows management page
+│   │   ├── Workflows.tsx       # Workflows management page
+│   │   └── Settings.tsx        # Application settings page
 │   ├── App.tsx                 # Main app component with routing
 │   ├── main.tsx               # Application entry point
 │   └── index.css              # Global styles and Tailwind imports
@@ -130,6 +132,9 @@ The main dashboard page showing an overview of the system.
 
 ### Workflows (`/workflows`)
 The workflows management page for creating and managing AdFlowHQ workflows.
+
+### Settings (`/settings`)
+Manage application configuration.
 
 ## 🔌 Dependencies
 
