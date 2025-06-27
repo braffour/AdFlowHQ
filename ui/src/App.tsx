@@ -4,6 +4,7 @@ import { Dashboard } from './pages/Dashboard'
 import { Login } from './pages/Login'
 import { Layout } from './components/Layout'
 import { AuthProvider } from './contexts/AuthContext'
+import { ProtectedRoute } from './components/ProtectedRoute'
 
 function App() {
   return (
@@ -11,8 +12,22 @@ function App() {
       <Layout>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/workflows" element={<Workflows />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/workflows"
+            element={
+              <ProtectedRoute>
+                <Workflows />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </Layout>
     </AuthProvider>
