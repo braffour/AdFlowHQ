@@ -103,17 +103,17 @@ services:
     #   - ./vault/vault/data:/vault/file
     #   - ./vault/vault/config:/vault/config
 
-  # frontend:
-  #   build:
-  #     context: ./ui
-  #     dockerfile: Dockerfile
-  #   container_name: adflow-frontend
-  #   ports:
-  #     - "5173:80"
-  #   depends_on:
-  #     - client
-  #   networks:
-  #     - temporal-network
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: adflow-ui
+    ports:
+      - "3000:3000"
+    depends_on:
+      - temporal-ui
+    networks:
+      - temporal-network
 
 networks:
   temporal-network:
